@@ -1,0 +1,49 @@
+User: can have password , username  amd can own channels
+Channel: has subscriber number , owner , videos , date created
+video : exist in one channel  , upload date , number of likes , number of views , may be in playlist or no 
+playlist: contain videos , related to a channel 
+-----------------
+CREATE TABLE "videos"(
+    "id" INTEGER NOT NULL,
+    "date_uploaded" TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
+    "likes" INTEGER NOT NULL,
+    "comments" INTEGER NOT NULL,
+    "views" INTEGER NOT NULL,
+    "playlist_id" INTEGER NOT NULL,
+    "channel_id" BIGINT NOT NULL,
+    "owner_id" BIGINT NOT NULL
+);
+ALTER TABLE
+    "videos" ADD PRIMARY KEY("id");
+CREATE TABLE "user"(
+    "id" INTEGER NOT NULL,
+    "username" TEXT NOT NULL,
+    "password" TEXT NOT NULL
+);
+ALTER TABLE
+    "user" ADD PRIMARY KEY("id");
+CREATE TABLE "channel"(
+    "id" BIGINT NOT NULL,
+    "video_id" BIGINT NOT NULL,
+    "owner_id" INTEGER NOT NULL,
+    "subscribers_number" BIGINT NOT NULL,
+    "date_created" TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL
+);
+ALTER TABLE
+    "channel" ADD PRIMARY KEY("id");
+CREATE TABLE "playlist"(
+    "id" BIGINT NOT NULL,
+    "creator_id" BIGINT NOT NULL,
+    "video_id" BIGINT NOT NULL,
+    "date_created" TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL
+);
+ALTER TABLE
+    "playlist" ADD PRIMARY KEY("id");
+ALTER TABLE
+    "videos" ADD CONSTRAINT "videos_playlist_id_foreign" FOREIGN KEY("playlist_id") REFERENCES "playlist"("id");
+ALTER TABLE
+    "playlist" ADD CONSTRAINT "playlist_creator_id_foreign" FOREIGN KEY("creator_id") REFERENCES "user"("id");
+ALTER TABLE
+    "videos" ADD CONSTRAINT "videos_channel_id_foreign" FOREIGN KEY("channel_id") REFERENCES "channel"("id");
+ALTER TABLE
+    "channel" ADD CONSTRAINT "channel_owner_id_foreign" FOREIGN KEY("owner_id") REFERENCES "user"("id");
