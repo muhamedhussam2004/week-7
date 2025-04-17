@@ -1,4 +1,4 @@
-
+CREATE VIEW active_rentals AS
 SELECT 
     c.name,
     c.email,
