@@ -1,0 +1,13 @@
+
+SELECT 
+    c.name,
+    c.email,
+    m.title,
+    r.rental_id,
+    r.rental_date
+FROM 
+    rentals r
+LEFT JOIN customers c ON r.customer_id = c.customer_id
+LEFT JOIN movies m ON r.movie_id = m.movie_id
+WHERE 
+    r.return_date IS NULL;
